@@ -38,3 +38,11 @@ class UserBase(BaseModel):
 
     class Config:
         from_attributes = True  # Pydantic V2 설정
+
+## 프로필 이미지로 등록 
+class SetProfileImageRequest(BaseModel):
+    reflection_id: int
+
+class SetProfileImageResponse(BaseModel):
+    status: int
+    message: str
