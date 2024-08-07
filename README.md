@@ -3,9 +3,7 @@
 Server
 ├─ ai
 │  ├─ __init__.py
-│  ├─ model.py
-│  ├─ tran_model.py
-│  └─ utils.py
+│  └─ model.py
 ├─ app
 │  ├─ __init__.py
 │  ├─ api

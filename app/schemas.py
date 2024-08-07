@@ -28,16 +28,18 @@ class ReflectionWithImageResponse(BaseModel):
     class Config:
         from_attributes = True  # Pydantic V2 대응
 
-class UserBase(BaseModel):
+
+## 유저 정보 조회 API 응답 
+class UserResponse(BaseModel):
     id: int
     github_id: str
     nickname: str
-    email: str
+    email: str = None
     profile_img: str = None
     continuous_days: int = 0
 
     class Config:
-        from_attributes = True  # Pydantic V2 설정
+        from_attributes = True  # Pydantic V2에서 ORM 호환성을 유지하기 위해 사용
 
 ## 프로필 이미지로 등록 
 class SetProfileImageRequest(BaseModel):

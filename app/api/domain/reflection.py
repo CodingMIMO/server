@@ -91,12 +91,12 @@ def set_profile_image(
         # Reflection ID로 이미지를 찾음
         db_image = db.query(Image).filter(Image.reflection_id == request.reflection_id).first()
         if db_image is None:
-            raise HTTPException(status_code=404, detail="해당 회고에 연결된 이미지를 찾을 수 없습니다.")
+            raise HTTPException(status_code=404, message="해당 회고에 연결된 이미지를 찾을 수 없습니다.")
 
         # 이미지와 연결된 사용자 찾기
         user = db.query(User).filter(User.id == db_image.user_id).first()
         if user is None:
-            raise HTTPException(status_code=404, detail="사용자를 찾을 수 없습니다.")
+            raise HTTPException(status_code=404, message="사용자를 찾을 수 없습니다.")
 
         # 사용자 프로필 이미지 업데이트
         user.profile_img = db_image.image_url
@@ -110,4 +110,4 @@ def set_profile_image(
         raise http_exc
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=500, detail="실패")
+        raise HTTPException(status_code=500, message="실패")
