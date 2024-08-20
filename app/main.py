@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from .database import engine
 from .models import Base
-from app.api.domain import reflection
-from app.api.domain import user
+from .api.domain import reflection
+from .api.domain import user
 from fastapi.staticfiles import StaticFiles
 # from .api.domain import user, reflection
 # from database import engine
