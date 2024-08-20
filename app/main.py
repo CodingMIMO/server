@@ -3,10 +3,8 @@ from .database import engine
 from .models import Base
 from .api.domain import reflection
 from .api.domain import user
+from .api.domain import auth
 from fastapi.staticfiles import StaticFiles
-# from .api.domain import user, reflection
-# from database import engine
-# from models import Base
 
 app = FastAPI()
 
@@ -15,4 +13,5 @@ Base.metadata.create_all(bind=engine)
 
 app.include_router(reflection.router)
 app.include_router(user.router)
+app.include_router(auth.router)
 app.mount("/images", StaticFiles(directory="app/images"), name="images")

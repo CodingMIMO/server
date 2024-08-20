@@ -22,3 +22,4 @@ def get_user(userId: int, db: Session = Depends(get_db)):
         profile_img=user.profile_img if user.profile_img else "string",
         continuous_days=user.continuous_days if user.continuous_days else 0
     )
+

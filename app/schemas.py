@@ -48,3 +48,10 @@ class SetProfileImageRequest(BaseModel):
 class SetProfileImageResponse(BaseModel):
     status: int
     message: str
+
+# 구글 로그인 관련 스키마
+
+class OAuthUser(BaseModel):
+    id: str
+    email: str
+    name: str

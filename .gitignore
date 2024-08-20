@@ -12,3 +12,5 @@ pyenv.cfg
 # IDE-specific files (opßtional)
 .vscode/
 .idea/
+
+.env

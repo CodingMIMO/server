@@ -7,48 +7,38 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "user"
     
-    id = Column(Integer, primary_key=True, index=True)
-    github_id = Column(String(255), unique=True, nullable=False)
+    user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     nickname = Column(String(255), nullable=False)
     email = Column(String(255), nullable=True)
-    profile_img = Column(String(255), nullable=True)  # 프로필 이미지 URL
-    continuous_days = Column(Integer, default=0)
+    continuous_days = Column(Integer, nullable=True)
+    profile_img = Column(String(255), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     
-    reflections = relationship('Reflection', back_populates='user')
-    commits = relationship('Commit', back_populates='user')
-    images = relationship('Image', back_populates='user')
+    reflections = relationship("Reflection", back_populates="user")
+    images = relationship("Image", back_populates="user")
 
 class Reflection(Base):
-    __tablename__ = 'reflections'
+    __tablename__ = "reflection"
     
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    content = Column(Text, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    reflection_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), nullable=False)
+    todo = Column(String(255), nullable=False)
+    resolution = Column(String(255), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     
-    user = relationship('User', back_populates='reflections')
-    images = relationship('Image', back_populates='reflection')
-
-class Commit(Base):
-    __tablename__ = 'commits'
-    
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    date = Column(DateTime, nullable=False)
-    message = Column(Text, nullable=False)
-    
-    user = relationship('User', back_populates='commits')
+    user = relationship("User", back_populates="reflections")
+    images = relationship("Image", back_populates="reflection")
 
 class Image(Base):
-    __tablename__ = 'images'
+    __tablename__ = "image"
     
-    id = Column(Integer, primary_key=True, index=True)
-    reflection_id = Column(Integer, ForeignKey('reflections.id'), nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    image_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    reflection_id = Column(Integer, ForeignKey("reflection.reflection_id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), nullable=False)
     image_url = Column(String(255), nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     
-    user = relationship('User', back_populates='images')
-    reflection = relationship('Reflection', back_populates='images')
+    reflection = relationship("Reflection", back_populates="images")
+    user = relationship("User", back_populates="images")
