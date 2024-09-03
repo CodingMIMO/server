@@ -86,3 +86,6 @@ class TodoResponse(BaseModel):
 
     class Config:
         orm_mode = True
+class ReflectionUpdate(BaseModel):
+    user_id: int
+    content: str

@@ -29,6 +29,6 @@ def sampling(prompts, batch_size=1):
         print("cuda 사용")
     
     # 이미지를 생성합니다.
-    images = pipe(prompt=prompts, num_inference_steps=3).images
+    images = pipe(prompt=prompts, num_inference_steps=1).images
 
     return images

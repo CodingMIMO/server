@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from .database import Base
 from datetime import datetime, timedelta
 
-# UTC 시간에서 9시간을 더해 KST 시간 계산
+# 한국 시간 계산 함수
 def get_kst_time():
     return datetime.utcnow() + timedelta(hours=9)
 

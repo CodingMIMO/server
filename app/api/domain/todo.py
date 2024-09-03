@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.orm import Session
-from app.schemas import TodoRequest, TodoPostResponse, TodoGetResponse, TodoResponse
+from app.schemas import TodoRequest, TodoPostResponse, TodoGetResponse
 from app.models import Reflection as DbReflection, User as DbUser
 from app.dependencies import get_db
 from datetime import datetime, timedelta
@@ -8,6 +8,7 @@ import pytz
 
 router = APIRouter(prefix="/api/v1")
 
+# 한국 표준시 (KST) 설정
 KST = pytz.timezone('Asia/Seoul')
 
 @router.post("/todo", response_model=TodoPostResponse)
@@ -21,11 +22,13 @@ def create_todo(todo_data: TodoRequest, db: Session = Depends(get_db)):
     # 오늘의 todo가 이미 제출되었는지 확인
     today_start = datetime.combine(datetime.now(KST).date(), datetime.min.time()).astimezone(KST)
     today_end = datetime.combine(datetime.now(KST).date(), datetime.max.time()).astimezone(KST)
+    
     existing_todo = db.query(DbReflection).filter(
         DbReflection.user_id == todo_data.user_id,
         DbReflection.created_at >= today_start,
         DbReflection.created_at <= today_end
     ).first()
+    print(existing_todo)    
 
     if existing_todo:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="이미 오늘의 할 일을 제출하셨습니다.")
@@ -34,7 +37,8 @@ def create_todo(todo_data: TodoRequest, db: Session = Depends(get_db)):
     combined_todo = "\n".join(todo_data.tasks)
     new_reflection = DbReflection(
         user_id=todo_data.user_id,
-        todo=combined_todo
+        todo=combined_todo,
+        created_at=datetime.now(KST)  # created_at 필드를 KST 기준으로 설정
     )
    
     db.add(new_reflection)
