@@ -48,7 +48,7 @@ def create_reflection(
         # 2. 회고를 데이터베이스에 저장
         db_reflection = Reflection(
             user_id=reflection.user_id,
-            content=reflection.content,
+            todo=reflection.content,
         )
         db.add(db_reflection)
         db.commit()

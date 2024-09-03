@@ -55,3 +55,13 @@ class OAuthUser(BaseModel):
     id: str
     email: str
     name: str
+
+class Login(BaseModel):
+    email: str
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    user_id: int 
+    nickname: str  
