@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .database import engine
 from .models import Base
-from .api.domain import reflection, user, auth
+from .api.domain import reflection, user, auth, todo
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
@@ -31,4 +31,5 @@ Base.metadata.create_all(bind=engine)
 app.include_router(reflection.router)
 app.include_router(user.router)
 app.include_router(auth.router)
+app.include_router(todo.router)
 app.mount("/images", StaticFiles(directory="app/images"), name="images")

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import List
 
 class ReflectionCreate(BaseModel):
     user_id: int
@@ -65,3 +66,23 @@ class Token(BaseModel):
     token_type: str
     user_id: int 
     nickname: str  
+
+class TodoRequest(BaseModel):
+    user_id: int
+    tasks: List[str]
+
+class TodoPostResponse(BaseModel):
+    status: str
+    message: str
+
+class TodoGetResponse(BaseModel):
+    status: str
+    message: str
+    todos: list[str]
+class TodoResponse(BaseModel):
+    status: str
+    message: str
+    reflection_id: int = None
+
+    class Config:
+        orm_mode = True

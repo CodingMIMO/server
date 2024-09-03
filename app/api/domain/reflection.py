@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.orm import Session
-from app.models import Reflection, Image, User
 from app.schemas import ReflectionCreate, ReflectionResponse
 from ai.model import sampling  # AI 모델 호출 함수
 from app.dependencies import get_db 
 import os
 from app.schemas import ReflectionWithImageResponse, ImageResponse, SetProfileImageRequest, SetProfileImageResponse
-from datetime import datetime                              
+from datetime import datetime     
+from app.schemas import TodoRequest, TodoResponse  
+from app.models import Reflection as DbReflection, User as DbUser                       
 
 
 router = APIRouter(prefix="/api/v1")
@@ -123,3 +124,4 @@ def set_profile_image(
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, message="실패")
+    
