@@ -1,6 +1,15 @@
 import torch
 from PIL import Image
 from diffusers import StableDiffusionPipeline
+from huggingface_hub import login
+import os
+
+# Hugging Face에 로그인 (환경 변수에서 토큰 불러오기)
+HF_ACCESS_TOKEN = os.getenv("HF_ACCESS_TOKEN")
+login(HF_ACCESS_TOKEN)
+
+
+pipeline = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
 
 def sampling(prompts, batch_size=1):
     """
