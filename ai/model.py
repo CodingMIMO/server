@@ -1,11 +1,6 @@
 import torch
 from PIL import Image
 from diffusers import StableDiffusionPipeline
-from huggingface_hub import login
-import os
-
-
-pipeline = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
 
 def sampling(prompts, batch_size=1):
     """
@@ -34,6 +29,6 @@ def sampling(prompts, batch_size=1):
         print("cuda 사용")
     
     # 이미지를 생성합니다.
-    images = pipe(prompt=prompts, num_inference_steps=30).images
+    images = pipe(prompt=prompts, num_inference_steps=3).images
 
     return images
