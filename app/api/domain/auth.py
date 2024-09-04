@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.models import User as DbUser  # SQLAlchemy User 모델
 from app.dependencies import get_db 
-from app.schemas import Token, Login, UserResponse
+from app.schemas import Token, Login, UserResponse, RegisterUser
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
@@ -51,14 +51,16 @@ def login(login_data: Login, db: Session = Depends(get_db)):
         "nickname": user.nickname  # nickname 반환
     }
 
+
+# Register API 수정
 @router.post("/register", response_model=Token)
-def register(nickname: str, email: str, password: str, db: Session = Depends(get_db)):
-    user = db.query(DbUser).filter(DbUser.email == email).first()
+def register(user_data: RegisterUser, db: Session = Depends(get_db)):
+    user = db.query(DbUser).filter(DbUser.email == user_data.email).first()
     if user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
 
-    hashed_password = get_password_hash(password)
-    new_user = DbUser(email=email, hashed_password=hashed_password, nickname=nickname)
+    hashed_password = get_password_hash(user_data.password)
+    new_user = DbUser(email=user_data.email, hashed_password=hashed_password, nickname=user_data.nickname)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)

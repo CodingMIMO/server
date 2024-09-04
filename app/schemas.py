@@ -89,3 +89,7 @@ class TodoResponse(BaseModel):
 class ReflectionUpdate(BaseModel):
     user_id: int
     content: str
+class RegisterUser(BaseModel):
+    nickname: str
+    email: str
+    password: str
